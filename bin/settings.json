@@ -1,0 +1,5 @@
+{
+	"order_within_selection": 1, 
+	"no_selection_behaviour": "JMP",
+	"save_original_order_as_table_script": 1
+}

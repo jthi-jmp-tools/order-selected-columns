@@ -1,0 +1,223 @@
+Names Default To Here(1);
+
+Define Class("OrderSelectedColumns",
+	order_within_selection = 1;
+	no_selection_behaviour = "JMP";
+	save_original_order_as_table_script = 0;
+	settings_path = "";
+	readme_path = "";
+	
+	get_and_check_columns = Expr(
+		dt = Current Data Table();
+		If(IsEmpty(dt),
+			Throw("No datatables open");
+			return();
+		);
+		all_cols = dt << Get Column Names("String");
+		col_list = dt << Get Selected Columns;
+		If(N Items(col_list) < 1,
+			If(no_selection_behaviour == "JMP",
+				add_original_order_table_script(dt, "Return Column order before sorting "|| sort_type);
+				If(sort_type == "by Name",
+					dt << Reorder By Name();
+				,sort_type == "Reverse",
+					dt << Reverse Order();
+				,sort_type == "by Modeling Type",
+					dt << Reorder By Modeling Type();
+				,sort_type == "by Data Type",
+					dt << Reorder By Data Type();
+				, //else
+					return();
+				);
+				return();		
+			,
+				Throw("No columns selected");
+				return();
+			);
+		);
+	);
+	
+	_init_ = Method({settings_path = "settings.json", readme_path = "doc/README.html"},
+		If(File Exists(settings_path),
+			settings_path = Convert File Path(settings_path);
+			aa = Load Text File(settings_path, JSON);
+			aa << Set Default Value(.);
+			order_within_selection = aa["order_within_selection"];
+			no_selection_behaviour = aa["no_selection_behaviour"];
+			save_original_order_as_table_script = aa["save_original_order_as_table_script"];
+		,
+			settings_path = "";
+		);
+		If(File Exists(readme_path),
+			readme_path = Convert File Path(readme_path);
+		,
+			readme_path = "";
+		);
+	);
+	
+	get_original_indices = Method({list_of_interest, list_of_all_values},
+		original_indices = Matrix(Transform Each({col}, list_of_interest, Contains(list_of_all_values, col << get name)));
+		return(original_indices);
+	);
+	
+	add_original_order_table_script = Method({dt, script_name = "Return Column Order"},
+		If(save_original_order_as_table_script == 1,
+			col_names = dt << Get Column Names("string");
+			Eval(EvalExpr(
+				dt << New Script(Expr(script_name), 
+					Show("Returned column order saved at " || Expr(Char(Today())));
+					Current Data Table() << Move Selected Columns(Expr(col_names));
+					Write();
+				)
+			));				
+		);
+	);
+	
+	move_columns = Method({dt, cols_to_order, index = .},
+		add_original_order_table_script(dt, "Return Column order before sorting" || sort_type);
+		If(Is Missing(index),
+			dt << Move Selected Columns(cols_to_order);
+		,
+			dt << Move Selected Columns(cols_to_order, After(Column(dt, index)));	
+		);
+	);
+
+	byName = Method({},
+		sort_type = "by Name";
+		get_and_check_columns;
+		
+		If(order_within_selection,
+			original_indices = get_original_indices(col_list, all_cols);
+			ranked = Ranking(col_list);
+			new_order_for_selected = original_indices[ranked];
+			all_cols[original_indices] = all_cols[new_order_for_selected];
+			new_order = all_cols;
+			first_selected_index = .;
+		, //else
+			new_order = Sort List(col_list);
+			first_selected_index = Contains(all_cols, col_list[1] << get name);
+		);
+		move_columns(dt, new_order, first_selected_index);
+	);
+	
+	byReverse = Method({},
+		sort_type = "Reverse";
+		get_and_check_columns;
+
+		If(order_within_selection,
+			original_indices = get_original_indices(col_list, all_cols);
+			all_cols[original_indices] = all_cols[Reverse(original_indices)];
+			new_order = all_cols;
+			first_selected_index = .;
+		, //else
+			new_order = Reverse(col_list);
+			first_selected_index = Contains(all_cols, col_list[1] << get name);
+		);
+		move_columns(dt, new_order, first_selected_index);
+	);
+
+	byModelingType = Method({},
+		sort_type = "by Modeling Type";
+		get_and_check_columns;
+		
+		If(order_within_selection,
+			original_indices = get_original_indices(col_list, all_cols);
+			modeling_types = Transform Each({col}, col_list, col << Get Modeling Type);
+			modeling_types_sorted = Ranking(modeling_types);
+			new_order_for_selected = original_indices[modeling_types_sorted];
+			all_cols[original_indices] = all_cols[new_order_for_selected];
+			new_order = all_cols;
+			first_selected_index = .;
+
+		, //else
+			first_selected_index = Contains(all_cols, col_list[1] << get name);
+			modeling_types = Transform Each({col}, col_list, col << Get Modeling Type);
+			modeling_types_sorted = Ranking(modeling_types);
+			new_order = col_list[modeling_types_sorted];
+		);
+		move_columns(dt, new_order, first_selected_index);
+	);
+
+	byDataType = Method({},
+		sort_type = "by Data Type";
+		get_and_check_columns;
+		
+		If(order_within_selection,
+			original_indices = Matrix(Transform Each({col}, col_list, Contains(all_cols, col << get name)));
+			modeling_types = Transform Each({col}, col_list, col << Get Data Type);
+			modeling_types_sorted = Ranking(modeling_types);
+			new_order_for_selected = original_indices[modeling_types_sorted];
+			all_cols[original_indices] = all_cols[new_order_for_selected];
+			new_order = all_cols;
+			first_selected_index = .;
+		, //else
+			first_selected_index = Contains(all_cols, col_list[1] << get name);
+			modeling_types = Transform Each({col}, col_list, col << Get Data Type);
+			modeling_types_sorted = Ranking(modeling_types);
+			new_order = col_list[modeling_types_sorted];
+		);
+		move_columns(dt, new_order, first_selected_index);
+	);
+	
+	change_settings = Method({},
+		set_defaults = 0;
+		order_settings = {"Order Columns Within Selection", "Order Columns and Group to First Selected"};
+		default_behaviour = {"JMP Default", "Throw Error"};
+		nw = New Window("Settings for Order Selected Columns", <<modal, Suppress AutoHide(1), Show Toolbars(0), << return result, << Set Window Icon("Gear"),
+			V List Box(
+				Panel Box("",
+					Lineup Box(N Col(1),
+						Spacer Box(Size(100,1), Color("Gray")),
+						Text Box("Ordering behaviour:"),
+						rb_order = Radio Box(order_settings, << Set(order_within_selection + 1)),
+						Spacer Box(Size(100,1), Color("Gray")),
+						Text Box("Behaviour when no columns selected"),
+						rb_default = Radio Box(default_behaviour, << Set(If(no_selection_behaviour == "JMP", 1, 2))),
+						Spacer Box(Size(100,1), Color("Gray")),
+						H List Box(
+							cb_order = Check Box({""}, << Set(1, save_original_order_as_table_script)),
+							Text Box("Save Table Script With Previous Order")
+						),
+						Spacer Box(Size(100,1), Color("Gray")),
+					)
+				),
+				Lineup Box(N Col(3),
+					ok_btn = Button Box("OK"),
+					Button Box("Cancel"),
+					Button Box("Set Default Settings",
+						set_defaults = 1;
+						order_within_selection = 1;
+						no_selection_behaviour = "JMP";
+						save_original_order_as_table_script = 0;
+						ok_btn << Click;
+					);
+				)
+			)
+		);
+		If(nw["Button"] == 1,
+			If(set_defaults == 0,
+				order_within_selection = nw["rb_order"] - 1;
+				no_selection_behaviour = Word(1, default_behaviour[nw["rb_default"]]);
+				save_original_order_as_table_script = 1;
+			);
+			new_settings = Associative Array();
+			new_settings["order_within_selection"] = order_within_selection;
+			new_settings["no_selection_behaviour"] = no_selection_behaviour;
+			new_settings["save_original_order_as_table_script"] = save_original_order_as_table_script;
+
+			If(!IsMissing(settings_path),
+				Try(Save Text File(settings_path, As JSON Expr(new_settings), mode("replace")));
+			);
+		);
+	);
+	
+	open_readme = Method({},
+		If(readme_path != "" & Host is("Windows"),
+			Web(Convert File Path(readme_path, Windows), JMP Window);
+		,
+			Throw(Eval Insert("Incorrect README.html path: ^readme_path^"))
+		)
+	);
+);
+
+
