@@ -12,6 +12,7 @@ Currently the sorting options provided are:
 * Reverse Selected Columns
 
 After the addin has been installed new **submenu** will be added to **Add-Ins** menu:
+
 ![](images/new_menu.png)
 
 The addin does provide couple of options user can change through **Change Settings**
