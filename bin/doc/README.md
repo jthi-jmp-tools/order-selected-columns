@@ -12,11 +12,11 @@ Currently the sorting options provided are:
 * Reverse Selected Columns
 
 After the addin has been installed new **submenu** will be added to **Add-Ins** menu:
-![](../images/new_menu.png)
+![](images/new_menu.png)
 
 The addin does provide couple of options user can change through **Change Settings**
 
-![](../images/settings.png)
+![](images/settings.png)
 
 Addin also provides simple access to this document by using JMP's Web() command through **Open README** button.
 
@@ -28,7 +28,7 @@ With this option user can select if the columns should be only sorted within the
 ### Behaviour when no columns selected
 With this option user can decide if the addin should uses JMP's default sorting options if no columns are seleced (default behaviour) or throw an error when no colums are selected:
 
-![](../images/no_columns_error.png)
+![](images/no_columns_error.png)
 
 ### Save table script
 With this option enabled table script will be saved to datatable which can then return the order of columns before the sorting was ran (defaults to on).

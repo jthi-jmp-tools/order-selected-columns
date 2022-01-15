@@ -11,8 +11,8 @@
             <jm:name>ORDER SELECTED COLUMNS BY NAME</jm:name>
             <jm:caption>Order Selected Columns by Name</jm:caption>
             <jm:action type="text">Names Default To Here(1);
-Include("$ADDIN_HOME(jthi.order.selected.columns)/OrderSelectedColumns.jsl");
-OSC = New Object(OrderSelectedColumns("$ADDIN_HOME(jthi.order.selected.columns)/settings.json"));
+Include("$ADDIN_HOME(jthi.jmp.tools.order.selected.colums)/OrderSelectedColumns.jsl");
+OSC = New Object(OrderSelectedColumns("$ADDIN_HOME(jthi.jmp.tools.order.selected.colums)/settings.json"));
 OSC:byName();</jm:action>
             <jm:tip>Order Selected Columns by Name</jm:tip>
             <jm:icon type="builtin">CharacterColumn</jm:icon>
@@ -21,8 +21,8 @@ OSC:byName();</jm:action>
             <jm:name>ORDER SELECTED COLUMNS BY DATA TYPE</jm:name>
             <jm:caption>Order Selected Columns by Data Type</jm:caption>
             <jm:action type="text">Names Default To Here(1);
-Include("$ADDIN_HOME(jthi.order.selected.columns)/OrderSelectedColumns.jsl");
-OSC = New Object(OrderSelectedColumns("$ADDIN_HOME(jthi.order.selected.columns)/settings.json"));
+Include("$ADDIN_HOME(jthi.jmp.tools.order.selected.colums)/OrderSelectedColumns.jsl");
+OSC = New Object(OrderSelectedColumns("$ADDIN_HOME(jthi.jmp.tools.order.selected.colums)/settings.json"));
 OSC:byDataType();</jm:action>
             <jm:tip>Order Selected Columns by Data Type</jm:tip>
             <jm:icon type="builtin">NumericColumn</jm:icon>
@@ -31,8 +31,8 @@ OSC:byDataType();</jm:action>
             <jm:name>ORDER SELECTED COLUMNS BY MODELING TYPE</jm:name>
             <jm:caption>Order Selected Columns by Modeling Type</jm:caption>
             <jm:action type="text">Names Default To Here(1);
-Include("$ADDIN_HOME(jthi.order.selected.columns)/OrderSelectedColumns.jsl");
-OSC = New Object(OrderSelectedColumns("$ADDIN_HOME(jthi.order.selected.columns)/settings.json"));
+Include("$ADDIN_HOME(jthi.jmp.tools.order.selected.colums)/OrderSelectedColumns.jsl");
+OSC = New Object(OrderSelectedColumns("$ADDIN_HOME(jthi.jmp.tools.order.selected.colums)/settings.json"));
 OSC:byModelingType();</jm:action>
             <jm:tip>Order Selected Columns by Modeling Type</jm:tip>
             <jm:icon type="builtin">Ordinal</jm:icon>
@@ -41,8 +41,8 @@ OSC:byModelingType();</jm:action>
             <jm:name>REVERSE SELECTED COLUMNS</jm:name>
             <jm:caption>Reverse Selected Columns</jm:caption>
             <jm:action type="text">Names Default To Here(1);
-Include("$ADDIN_HOME(jthi.order.selected.columns)/OrderSelectedColumns.jsl");
-OSC = New Object(OrderSelectedColumns("$ADDIN_HOME(jthi.order.selected.columns)/settings.json"));
+Include("$ADDIN_HOME(jthi.jmp.tools.order.selected.colums)/OrderSelectedColumns.jsl");
+OSC = New Object(OrderSelectedColumns("$ADDIN_HOME(jthi.jmp.tools.order.selected.colums)/settings.json"));
 OSC:byReverse();</jm:action>
             <jm:tip>Reverse Selected Columns</jm:tip>
             <jm:icon type="builtin">FormulaSwap</jm:icon>
@@ -52,8 +52,8 @@ OSC:byReverse();</jm:action>
             <jm:name>CHANGE SETTINGS</jm:name>
             <jm:caption>Change Settings</jm:caption>
             <jm:action type="text">Names Default To Here(1);
-Include("$ADDIN_HOME(jthi.order.selected.columns)/OrderSelectedColumns.jsl");
-OSC = New Object(OrderSelectedColumns("$ADDIN_HOME(jthi.order.selected.columns)/settings.json"));
+Include("$ADDIN_HOME(jthi.jmp.tools.order.selected.colums)/OrderSelectedColumns.jsl");
+OSC = New Object(OrderSelectedColumns("$ADDIN_HOME(jthi.jmp.tools.order.selected.colums)/settings.json"));
 OSC:change_settings();</jm:action>
             <jm:tip>Change Settings</jm:tip>
             <jm:icon type="builtin">Save</jm:icon>
@@ -62,10 +62,7 @@ OSC:change_settings();</jm:action>
           <jm:command>
             <jm:name>OPEN README</jm:name>
             <jm:caption>Open README</jm:caption>
-            <jm:action type="text">Names Default To Here(1);
-Include("$ADDIN_HOME(jthi.order.selected.columns)/OrderSelectedColumns.jsl");
-OSC = New Object(OrderSelectedColumns("$ADDIN_HOME(jthi.order.selected.columns)/settings.json", "$ADDIN_HOME(jthi.order.selected.columns)/doc/README.html"));
-OSC:open_readme();</jm:action>
+            <jm:action type="text">Names Default To Here(1);Include(&quot;$ADDIN_HOME(jthi.jmp.tools.order.selected.colums)/OrderSelectedColumns.jsl&quot;);OSC = New Object(OrderSelectedColumns(&quot;$ADDIN_HOME(jthi.jmp.tools.order.selected.colums)/settings.json&quot;, &quot;$ADDIN_HOME(jthi.jmp.tools.order.selected.colums)/doc/README.html&quot;));OSC:open_readme();</jm:action>
             <jm:icon type="builtin">SearchIndex</jm:icon>
           </jm:command>
         </jm:menu>

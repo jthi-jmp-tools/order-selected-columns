@@ -4,11 +4,11 @@ Associative Array(
 	List(
 		List( "addinVersion", 1 ),
 		List( "author", "jthi" ),
-		List( "buildDate", 3725090935 ),
+		List( "buildDate", 3725093805 ),
 		List( "deployedAddinsFilename", "publishedAddins.jsl" ),
 		List( "deployedAddinsLoc", "" ),
-		List( "id", "jthi.order.selected.columns" ),
-		List( "name", "OrderSelectedColumns" ),
+		List( "id", "jthi.jmp.tools.order.selected.colums" ),
+		List( "name", "JMP-Tools Order Selected Columns" ),
 		List( "state", "DEV" )
 	)
 )
