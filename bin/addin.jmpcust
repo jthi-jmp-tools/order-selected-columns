@@ -5,8 +5,8 @@
       <jm:insert_after>
         <jm:name>Reorder Columns</jm:name>
         <jm:menu>
-          <jm:name>REORDER SELECTED COLUMNS</jm:name>
-          <jm:caption>Reorder Selected Columns</jm:caption>
+          <jm:name>REORDER SELECTED COLUMNS (ADD-IN)</jm:name>
+          <jm:caption>Reorder Selected Columns (Add-In)</jm:caption>
           <jm:command>
             <jm:name>ORDER SELECTED COLUMNS BY DATA TYPE</jm:name>
             <jm:caption>Order Selected Columns by Data Type</jm:caption>
