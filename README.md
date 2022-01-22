@@ -1,4 +1,4 @@
-# OrderSelectedColumns
+# Order Selected Columns
 | [Description](#description) | [Todo](#todo) | [License](#license) |
 
 ## Description
@@ -41,12 +41,14 @@ Table scripts are named based on the sorting user did:
 ```
 
 ## Todo
+* Refactor code to be cleaner
+* Add options to menu, when user right clicks on seleced column headers
+  * Not sure where this should be done, also I think this cannot be yet done with Add-In manager so will require custom modification to jmpcust file
 * More sorting options (all JMP offers)
 * Add Toolbar
-* Move to Cols menu
 * Better management for previous column orders
   * Possibly combine with [Save Current Column Order and Grouping @ nickholmes13](https://community.jmp.com/t5/JMP-Add-Ins/Save-Current-Column-Order-and-Grouping/ta-p/394251)
   * Or change behaviour of addin and create table/list of all column changes done by the addin which then can be used to return to specific timepoint
   
 ## License
-[MIT License](../LICENSE)
+[MIT](../LICENSE)
